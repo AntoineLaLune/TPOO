@@ -17,10 +17,21 @@ public class Library {
             this.books[i].displayInfo();
         }
     }
-    void findBook(String title){
-
+    Book findBook(String title){
+        for (int i = 0; i < books.length; i++) {
+            if (books[i].getTitle() == title) {
+                return books[i];
+            }
+        }
+        return null;
     }
-    void countAvailableBooks(){
-
+    int countAvailableBooks(){
+        int count = 0;
+        for (int i = 0; i < books.length; i++) {
+            if (!books[i].isBorrowed) {
+                count ++;
+            }
+        }
+        return count;
     }
 }

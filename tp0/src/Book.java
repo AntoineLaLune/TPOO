@@ -9,18 +9,22 @@ public class Book {
         this.pages = pages;
         this.isBorrowed = isBorrowed;
     }
-    void borrow(boolean isBorrowed){
-        isBorrowed = true;
-        System.out.println("Le livre est emprunté");
+    void borrow(){
+        if (!this.isBorrowed) {
+            this.isBorrowed = true;
+            System.out.println("Le livre est emprunté");
+        }
     }
-    void returnBook(boolean isBorrowed){
-        isBorrowed = false;
-       System.out.println("Le livre n'est pas emprunté");
+    void returnBook(){
+        if (this.isBorrowed) {
+            this.isBorrowed = false;
+            System.out.println("Le livre n'est pas emprunté");
+        }
     }
     void displayInfo(){
-        System.out.println("Title: " + title);
-        System.out.println("Author: " + author);
-        System.out.println("Pages: " + pages);
+        System.out.println("Title: " + this.title);
+        System.out.println("Author: " + this.author);
+        System.out.println("Pages: " + this.pages);
         if (isBorrowed) {
             System.out.println("Status: Not Available");
         } else {
@@ -28,10 +32,10 @@ public class Book {
         }
 
     }
-    void getTitle(boolean isBorrowed){
-        System.out.println("Title: " + title + "\n");
+    String getTitle(){
+        return this.title;
     }
-    void isBorrowed(boolean isBorrowed){
-        System.out.println("Status: " + isBorrowed + "\n");
+    boolean isFree(){
+        return this.isBorrowed;
     }
 }
