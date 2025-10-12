@@ -1,10 +1,10 @@
-import java.lang.reflect.Array;
-
 public class MediaPlayer {
 
+    // Attributs privé
     private Media[] playlist;
     private int mediaCount;
 
+    // Constructeur
     public MediaPlayer(int capacity) {
         this.playlist = new Media[capacity];
         this.mediaCount = 0;
@@ -19,19 +19,16 @@ public class MediaPlayer {
             System.out.println(media + " added to the playlist");
         }
     }
-
     public void playAll() {
         for (int i = 0; i < this.mediaCount; i++) {
             this.playlist[i].play();
         }
     }
-
     public void displayPlaylist() {
         for (int i = 0; i < this.mediaCount; i++) {
             this.playlist[i].displayInfo();
         }
     }
-
     public double getTotalSize() {
         double size = 0.0;
         for (int i = 0; i < this.mediaCount; i++) {
@@ -39,7 +36,6 @@ public class MediaPlayer {
         }
         return size;
     }
-
     public Media[] getMediaByType(String type) {
         Media[] playlist_short = new Media[this.mediaCount];
         for (int i = 0; i < this.mediaCount; i++) {
@@ -49,7 +45,6 @@ public class MediaPlayer {
         }
         return playlist_short;
     }
-
     public Media[] getRecentMedia(int year) {
         Media[] playlist_short = new Media[this.mediaCount];
         for (int i = 0; i < this.mediaCount; i++) {
@@ -59,7 +54,6 @@ public class MediaPlayer {
         }
         return playlist_short;
     }
-
     public Media[] getLargeMedia(double sizeLimit) {
         Media[] playlist_short = new Media[this.mediaCount];
         for (int i = 0; i < this.mediaCount; i++) {
@@ -69,14 +63,11 @@ public class MediaPlayer {
         }
         return playlist_short;
     }
-
     public double getTotalDuration() {
         double total = 0;
         for (int i = 0; i < this.mediaCount; i++) {
             total = total + this.playlist[i].getDuration();
         }
-        System.out.println(total);
         return total;
     }
-
 }

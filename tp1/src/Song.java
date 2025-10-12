@@ -1,5 +1,6 @@
 public class Song extends Media {
 
+    // Attributs
     protected String album;
     protected String artist;
 
@@ -10,19 +11,20 @@ public class Song extends Media {
         this.artist = artist;
     }
 
+    // Méthodes concrètes
     @Override
     public void play() {
         System.out.println("Play: " + this.title);
     }
-
+    @Override
     public void pause() {
         System.out.println("Pause: " + this.title);
     }
-
+    @Override
     public String getMediaType() {
         return "Music";
     }
-
+    @Override
     public double getFileSize() {
         return (this.getDuration() / 60 * 4);
     }
@@ -30,6 +32,4 @@ public class Song extends Media {
     public void showLyrics() {
         System.out.println("Displaying lyrics for " + this.title);
     }
-
-
 }

@@ -1,5 +1,6 @@
 public class Movie extends Media {
 
+    // Attributs
     protected String genre;
     protected String director;
     protected String producer;
@@ -12,19 +13,20 @@ public class Movie extends Media {
         this.producer = producer;
     }
 
+    // Méthodes concrètes
     @Override
     public void play() {
         System.out.println("Play: " + this.title);
     }
-
+    @Override
     public void pause() {
         System.out.println("Pause: " + this.title);
     }
-
+    @Override
     public String getMediaType() {
         return "Movie";
     }
-
+    @Override
     public double getFileSize() {
         return (this.getDuration() / 60 * 10);
     }

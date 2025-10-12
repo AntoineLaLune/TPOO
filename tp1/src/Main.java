@@ -1,5 +1,3 @@
-import javax.print.attribute.standard.Media;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -8,7 +6,7 @@ public class Main {
         Item smartphone = new Item("iPhone", 800.0, 0.20);
         System.out.println(smartphone.getTotalPrice()); // 960.0
         smartphone.applyDiscount(10.0); // 10% de remise
-        System.out.println(smartphone.getTotalPrice()); // 864.0
+        System.out.println(smartphone.discount);
 
         // Polymorphisme
         MediaPlayer player = new MediaPlayer(10);
@@ -18,7 +16,6 @@ public class Main {
         Song musique2 = new Song("titre2", 2017, 4, "coolmusic", "quelqu'un");
         Podcast podcast = new Podcast("titre", 2016, 30, "coolman", 1);
         Podcast podcast2 = new Podcast("titre2", 2017, 40, "coolman", 2);
-
         player.addMedia(film);
         player.addMedia(film2);
         player.addMedia(musique);
@@ -29,6 +26,5 @@ public class Main {
         player.getTotalSize();
         player.playAll();
 
-    }// Parcours complet (clé + valeur)
-
+    }
 }

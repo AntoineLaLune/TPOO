@@ -14,15 +14,11 @@ public abstract class Media {
         this.duration = duration;
     }
 
-    // Méthodes concrètes
-    public void displayInfo() {
-        System.out.println("Title: " + this.title);
-        System.out.println("Year: " + this.year);
-        System.out.println("Duration: " + this.duration);
-    }
-    public int getAge() {
-        return Year.now().getValue() - year;
-    }
+    // Méthodes abstraites
+    public abstract void play();
+    public abstract void pause();
+    public abstract String getMediaType();
+    public abstract double getFileSize(); // en MB
 
     // Getter
     public int getYear() {
@@ -32,9 +28,13 @@ public abstract class Media {
         return this.duration;
     }
 
-    // Méthodes abstraites
-    public abstract void play();
-    public abstract void pause();
-    public abstract String getMediaType();
-    public abstract double getFileSize(); // en MB
+    // Méthodes concrètes
+    public void displayInfo() {
+        System.out.println("Title: " + this.title);
+        System.out.println("Year: " + this.year);
+        System.out.println("Duration: " + this.duration);
+    }
+    public int getAge() {
+        return Year.now().getValue() - year;
+    }
 }
