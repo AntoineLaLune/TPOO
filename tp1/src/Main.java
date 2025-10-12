@@ -7,7 +7,7 @@ public class Main {
         // Heritage
         Item smartphone = new Item("iPhone", 800.0, 0.20);
         System.out.println(smartphone.getTotalPrice()); // 960.0
-        System.out.println(smartphone.applyDiscount(10.0)); // 10% de remise
+        smartphone.applyDiscount(10.0); // 10% de remise
         System.out.println(smartphone.getTotalPrice()); // 864.0
 
         // Polymorphisme
@@ -29,6 +29,6 @@ public class Main {
         player.getTotalSize();
         player.playAll();
 
-    }
+    }// Parcours complet (clé + valeur)
 
 }

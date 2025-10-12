@@ -5,7 +5,7 @@ public abstract class Media {
     // Attributs protégés
     protected String title;
     protected int year;
-    protected double duration; // en minutes
+    protected double duration; // seconds
 
     // Constructeur
     public Media(String title, int year, double duration) {
@@ -16,12 +16,20 @@ public abstract class Media {
 
     // Méthodes concrètes
     public void displayInfo() {
-        System.out.println(this.title);
-        System.out.println(this.year);
-        System.out.println(this.duration);
+        System.out.println("Title: " + this.title);
+        System.out.println("Year: " + this.year);
+        System.out.println("Duration: " + this.duration);
     }
     public int getAge() {
         return Year.now().getValue() - year;
+    }
+
+    // Getter
+    public int getYear() {
+        return this.year;
+    }
+    public double getDuration() {
+        return this.duration;
     }
 
     // Méthodes abstraites

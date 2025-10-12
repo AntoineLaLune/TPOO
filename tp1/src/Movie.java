@@ -1,8 +1,8 @@
 public class Movie extends Media {
 
-    String genre;
-    String director;
-    String producer;
+    protected String genre;
+    protected String director;
+    protected String producer;
 
     // Constructeur
     public Movie(String title, int year, double duration, String genre, String director, String producer) {
@@ -22,15 +22,16 @@ public class Movie extends Media {
     }
 
     public String getMediaType() {
-        return "Film";
+        return "Movie";
     }
 
     public double getFileSize() {
-        return 1000.0;
+        return (this.getDuration() / 60 * 10);
     }
 
     public void showCredits() {
-        System.out.println("Credits");
+        System.out.println("Credits:");
+        System.out.println("    " + this.director + " - Director");
+        System.out.println("    " + this.producer + " - Producer");
     }
-
 }

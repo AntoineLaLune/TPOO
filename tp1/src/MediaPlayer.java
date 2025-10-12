@@ -3,16 +3,21 @@ import java.lang.reflect.Array;
 public class MediaPlayer {
 
     private Media[] playlist;
-    private int currentIndex;
     private int mediaCount;
 
     public MediaPlayer(int capacity) {
         this.playlist = new Media[capacity];
+        this.mediaCount = 0;
     }
 
     public void addMedia(Media media) {
-        this.playlist[this.mediaCount] = media;
-        this.mediaCount ++;
+        if (this.mediaCount == this.playlist.length) {
+            System.out.println(media + " could not be added to the playlist: full");
+        } else {
+            this.playlist[this.mediaCount] = media;
+            this.mediaCount ++;
+            System.out.println(media + " added to the playlist");
+        }
     }
 
     public void playAll() {
@@ -32,7 +37,6 @@ public class MediaPlayer {
         for (int i = 0; i < this.mediaCount; i++) {
             size = size + this.playlist[i].getFileSize();
         }
-        System.out.println(size);
         return size;
     }
 
@@ -41,7 +45,6 @@ public class MediaPlayer {
         for (int i = 0; i < this.mediaCount; i++) {
             if (this.playlist[i].getMediaType().equalsIgnoreCase(type)) {
                 playlist_short[i] = this.playlist[i];
-                System.out.println(this.playlist[i].title);
             }
         }
         return playlist_short;
@@ -50,9 +53,8 @@ public class MediaPlayer {
     public Media[] getRecentMedia(int year) {
         Media[] playlist_short = new Media[this.mediaCount];
         for (int i = 0; i < this.mediaCount; i++) {
-            if (this.playlist[i].year > year) {
+            if (this.playlist[i].getYear() > year) {
                 playlist_short[i] = this.playlist[i];
-                System.out.println(this.playlist[i].title);
             }
         }
         return playlist_short;
@@ -63,7 +65,6 @@ public class MediaPlayer {
         for (int i = 0; i < this.mediaCount; i++) {
             if (this.playlist[i].getFileSize() > sizeLimit) {
                 playlist_short[i] = this.playlist[i];
-                System.out.println(this.playlist[i].title);
             }
         }
         return playlist_short;
@@ -72,7 +73,7 @@ public class MediaPlayer {
     public double getTotalDuration() {
         double total = 0;
         for (int i = 0; i < this.mediaCount; i++) {
-            total = total + this.playlist[i].duration;
+            total = total + this.playlist[i].getDuration();
         }
         System.out.println(total);
         return total;

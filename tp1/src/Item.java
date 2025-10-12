@@ -1,8 +1,8 @@
 public class Item {
 
-    public String name;
-    public double price;
-    public double taxRate;
+    protected String name;
+    protected double price;
+    protected double taxRate;
 
     public Item (String name, double price, double taxRate) {
         this.name = name;
@@ -11,16 +11,16 @@ public class Item {
     }
 
     public double getTotalPrice() {
-        this.price = this.price + this.price * this.taxRate;
-        return this.price;
+        return (this.price + this.price * this.taxRate);
     }
 
-    public double applyDiscount(double discount) {
+    public void applyDiscount(double discount) {
         this.price = this.price - this.price * (discount/100);
-        return this.price;
     }
 
     public void displayInfo() {
+        System.out.println(this.price);
+        System.out.println(this.getTotalPrice());
     }
 
 }

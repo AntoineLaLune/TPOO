@@ -4,10 +4,8 @@ import java.util.SplittableRandom;
 
 public class Podcast extends Media {
 
-    String host;
-    int episodeNumber;
-    // Taille de fichier différente
-    // Méthode subscribe()
+    protected String host;
+    protected int episodeNumber;
 
     public Podcast(String title, int year, double duration, String host, int episodeNumber) {
         super(title, year, duration);
@@ -29,15 +27,11 @@ public class Podcast extends Media {
     }
 
     public double getFileSize() {
-        return 30.0;
-    }
-
-    public void showCredits() {
-        System.out.println("Credits");
+        return (this.getDuration() / 60 * 3);
     }
 
     public void subscribe() {
-        System.out.println("Abonné");
+        System.out.println("Subscribed");
     }
 
 }
