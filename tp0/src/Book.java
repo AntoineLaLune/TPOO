@@ -25,7 +25,7 @@ public class Book {
         System.out.println("Title: " + this.title);
         System.out.println("Author: " + this.author);
         System.out.println("Pages: " + this.pages);
-        if (isBorrowed) {
+        if (this.isBorrowed) {
             System.out.println("Status: Not Available");
         } else {
             System.out.println("Status: Available");
@@ -36,6 +36,6 @@ public class Book {
         return this.title;
     }
     boolean isFree(){
-        return this.isBorrowed;
+        return !this.isBorrowed;
     }
 }

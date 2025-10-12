@@ -18,9 +18,9 @@ public class Library {
         }
     }
     Book findBook(String title){
-        for (int i = 0; i < books.length; i++) {
-            if (books[i].getTitle() == title) {
-                return books[i];
+        for (int i = 0; i < this.books.length; i++) {
+            if (this.books[i].getTitle() == title) {
+                return this.books[i];
             }
         }
         return null;
@@ -28,7 +28,7 @@ public class Library {
     int countAvailableBooks(){
         int count = 0;
         for (int i = 0; i < books.length; i++) {
-            if (!books[i].isBorrowed) {
+            if (books[i].isFree()) {
                 count ++;
             }
         }
