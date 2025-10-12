@@ -4,9 +4,11 @@ public class Main {
 
         // Heritage
         Item smartphone = new Item("iPhone", 800.0, 0.20);
-        System.out.println(smartphone.getTotalPrice()); // 960.0
-        smartphone.applyDiscount(10.0); // 10% de remise
-        System.out.println(smartphone.discount);
+        smartphone.displayInfo(); // 800 or 960 after tax
+        smartphone.applyDiscount(10.0); // 10% de discount
+        smartphone.displayInfo(); // 720 or 864 after tax
+        smartphone.applyDiscount(0); // 0% of discount
+        smartphone.displayInfo();// 800 or 960 after tax
 
         // Polymorphisme
         MediaPlayer player = new MediaPlayer(10);
