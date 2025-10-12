@@ -5,7 +5,7 @@ public class Main {
         // Heritage
         Item smartphone = new Item("iPhone", 800.0, 0.20);
         smartphone.displayInfo(); // 800 or 960 after tax
-        smartphone.applyDiscount(10.0); // 10% de discount
+        smartphone.applyDiscount(10.0); // 10% of discount
         smartphone.displayInfo(); // 720 or 864 after tax
         smartphone.applyDiscount(0); // 0% of discount
         smartphone.displayInfo();// 800 or 960 after tax
