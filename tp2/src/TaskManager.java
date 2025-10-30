@@ -1,84 +1,101 @@
-import com.sun.net.httpserver.Authenticator;
-
 import java.util.ArrayList;
 
 public class TaskManager {
 
     // Attributs protégés
-    protected ArrayList<Task> TaskManager;
+    protected ArrayList<Task> tasks;
 
     // Constructeur
-    public TaskManager() {}
+    public TaskManager() {
+        this.tasks = new ArrayList<Task>();
+    }
 
+    // Getter
+    public ArrayList<Task> getTasksByPriority(Priority priority) {
+        ArrayList<Task> res = new ArrayList<Task>();
+        for (int i = 0; i < this.tasks.size(); i++) {
+            if (this.tasks.get(i).priority.equals(priority)) {
+                res.add(this.tasks.get(i));
+            }
+        }
+        return res;
+    }
+    public ArrayList<Task> getTasksByTitle(String title) {
+        ArrayList<Task> res = new ArrayList<Task>();
+        for (int i = 0; i < this.tasks.size(); i++) {
+            if (this.tasks.get(i).title.equals(title)) {
+                res.add(this.tasks.get(i));
+            }
+        }
+        return res;
+    }
+    public int getTasksNumberOfTask() {
+        return this.tasks.size();
+    }
+    public int getTasksNumberOfTaskByPriority(Priority priority) {
+        int res = 0;
+        for (int i = 0; i < this.tasks.size(); i++) {
+            if (this.tasks.get(i).priority.equals(priority)) {
+                res ++;
+            }
+        }
+        return res;
+    }
+
+    // Fonctions
     public void addTask(Task task) {
-        this.TaskManager.add(task);
+        this.tasks.add(task);
     }
     public void removeTask(Task task) {
-        this.TaskManager.remove(task);
+        this.tasks.remove(task);
     }
-    public void displayTasks(Task task) {
-        System.out.println("Tasks: \n" + task);
-    }
-    public void displayTasksByPriority(TaskManager Tasks, Priority priority) {
-        System.out.println("Tasks: ");
-        for (int i = 0; i < Tasks.TaskManager.size(); i++) {
-            if (Tasks.TaskManager.get(i).priority.equals(priority)) {
-                System.out.println(this.TaskManager);
-            }
+    public void displayTasks() {
+        for (int i = 0; i < this.tasks.size(); i++) {
+            this.tasks.get(i).displayInfo();
         }
-    }
-    public void displayTasksByTitle(TaskManager Tasks, String title) {
-        System.out.println("Tasks: ");
-        for (int i = 0; i < Tasks.TaskManager.size(); i++) {
-            if (Tasks.TaskManager.get(i).title.equals(title)) {
-                System.out.println(this.TaskManager);
-            }
-        }
-    }
-    public void displayTasksNumberOfTask(TaskManager Tasks) {
-        System.out.println("Number of task: " + this.TaskManager.size());
-    }
-    public void displayTasksNumberOfTaskByPriority(TaskManager Tasks, Priority priority) {
-        int count = 0;
-        for (int i = 0; i < Tasks.TaskManager.size(); i++) {
-            if (Tasks.TaskManager.get(i).priority.equals(priority)) {
-                count ++;
-            }
-        }
-        System.out.println("Number of task: " + count);
     }
     public boolean importTask(String[] taskData) {
-        try {
-            String title = taskData[0];
-            String description = taskData[1];
-            String priority = taskData[2];
-            if (priority == null) {
-                throw new IllegalArgumentException("Priority is null");
-            }
-            Priority priorityEnum = Priority.fromString(priority);
-            try {
-                Task task = new Task(title, description, priorityEnum);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(e);
-            }
-            return true;
-        } catch (IllegalArgumentException e) { // On capture IllegalArgument
-            System.out.println("Tâche non importée : "+e.getMessage());
-            return false;
-        } catch (IndexOutOfBoundsException e) {// On capture IndexOutOfBounds
-            System.out.println("Tâche non importée : Data mal formatée");
+        if (taskData.length != 3) {
+            System.out.println("The date must contain title, desciption, and priority");
             return false;
         }
+        try {
+            String title = taskData[0];
+        } catch (IllegalArgumentException e) {
+            System.out.println("Task not imported : "+e.getMessage());
+            return false;
+        }
+        try {
+            String description = taskData[1];
+        } catch (IllegalArgumentException e) {
+            System.out.println("Task not imported : "+e.getMessage());
+            return false;
+        }
+        try {
+            String priority = taskData[2];
+        } catch (IllegalArgumentException e) {
+            System.out.println("Task not imported : "+e.getMessage());
+            return false;
+        }
+        String title = taskData[0];
+        String description = taskData[1];
+        String priority = taskData[2];
+        Task task = new Task(title, description, priority);
+        return true;
     }
     public void importTasks(String[][] tasksData) {
         int successCount = 0;
         int errorCount = 0;
         for (int i = 0; i < tasksData.length; i++) {
-            if (!importTask(tasksData[i])) {
+            try {
+                if (importTask(tasksData[i])) {
+                    successCount ++;
+                } else {
+                    errorCount ++;
+                }
+            } catch (IllegalArgumentException e) {
                 errorCount ++;
-            } else  {
-                importTask(tasksData[i]);
-                successCount ++;
+                System.out.println(e);
             }
         }
         System.out.println("Success: " + successCount + "\nError: " + errorCount);

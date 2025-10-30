@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,14 +13,11 @@ public class MovieScheduler {
     }
 
     void addMovie(String title, Slot slot) {
-        if (title == null) {
-            throw new IllegalArgumentException("Title is null");
+        if (title == null || title.isEmpty()) {
+            throw new IllegalArgumentException("Title can't be null or empty");
         }
         if (slot == null) {
-            throw new IllegalArgumentException("Slot is null");
-        }
-        if (title.isEmpty()) {
-            throw new IllegalArgumentException("Title is empty");
+            throw new IllegalArgumentException("Slot cannot be null");
         }
         if (this.MovieScheduler.containsKey(title)) {
             throw new IllegalArgumentException("Title already exist");
@@ -31,13 +29,13 @@ public class MovieScheduler {
         }
         this.MovieScheduler.put(title, slot);
     }
-    void removeMovie(String title) {
+    public void removeMovie(String title) {
         this.MovieScheduler.remove(title);
     }
-    Slot getMovieSlot(String title) {
+    public Slot getMovieSlot(String title) {
         return this.MovieScheduler.get(title);
     }
-    void updateMovieSlot(String title, Slot newSlot) {
+    public void updateMovieSlot(String title, Slot newSlot) {
         // this.MovieScheduler.replace(title, this.getMovieSlot(title), newSlot); // Has no hasTimeConflict
         if (newSlot == null) {
              throw new IllegalArgumentException("Slot is null");
@@ -57,13 +55,13 @@ public class MovieScheduler {
         System.out.println(title + " do not exist");
         }
     }
-    void display() {
+    public void display() {
         for (Map.Entry<String, Slot> entry : this.MovieScheduler.entrySet()) {
             System.out.println("For the " + entry.getKey() + " movie:");
             entry.getValue().display();
         }
     }
-    void showStats() {
+    public void showStats() {
         System.out.println("Number of films: " + this.MovieScheduler.size());
         double duration = 0;
         for (Map.Entry<String, Slot> entry : this.MovieScheduler.entrySet()) {
@@ -88,23 +86,19 @@ public class MovieScheduler {
             System.out.println("    " + (i+1) + ram[i].toString());
         }
 
-//        for (int i = 0; i < this.MovieScheduler.size(); i++) {
-//            System.out.println("    " + this.MovieScheduler.values());
-//        }
-
     }
-    private void importMovie(String[] entre) {
+    private void importMovie(String[] movie) {
         try {
-            this.addMovie(entre[0], new Slot(entre[1], Long.parseLong(entre[2]), entre[3].charAt(6)));
+            this.addMovie(movie[0], new Slot(movie[1], movie[2], movie[3]));
         } catch (ParseException e) {
-            throw new IllegalArgumentException (e + ": Erreur de formatage");
+            throw new RuntimeException(e);
         }
     }
-    public void importMovieSchedule(String[][] entre) {
+    public void importMovieSchedule(String[][] movies) {
         HashMap<String, Slot> backup = new HashMap<>(this.MovieScheduler);
         try {
-            for (int i = 0; i < entre.length; i++) {
-                this.importMovie(entre[i]);
+            for (int i = 0; i < movies.length; i++) {
+                this.importMovie(movies[i]);
             }
         } catch (IllegalArgumentException e) {
             this.MovieScheduler.clear();

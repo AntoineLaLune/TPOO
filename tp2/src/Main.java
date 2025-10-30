@@ -7,56 +7,77 @@ public class Main {
     public static void main(String[] args) throws ParseException {
         // Exercice 1.4
         try {
-            Task task = new Task("", "Description", Priority.HIGH); // Titre vide !
+            Task task = new Task("", "Description", "HIGH"); // Titre vide !
         } catch (IllegalArgumentException e) {
             System.out.println("Erreur : " + e.getMessage());
         }
-        TaskManager tasks = new TaskManager();
-        String[] task = {"title", "description", "LOW"};
-        System.out.println(tasks.importTask(task));
+        try {
+            TaskManager tasks = new TaskManager();
+            String[] task = {"title", "description", "LOW"};
+            System.out.println(tasks.importTask(task));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
 
         // Exercice 1.5
-        System.out.println("=== Test données valides ===");
-        tasks.importTasks(TaskTestData.getValidTasks());
-        System.out.println("=== Test données problématiques ===");
-        tasks.importTasks(TaskTestData.getProblematicTasks());
-        System.out.println("=== Test grande liste ===");
-        tasks.importTasks(TaskTestData.getLargeTaskSet());
+        try {
+            System.out.println("=== Test données valides ===");
+            TaskManager tasks = new TaskManager();
+            tasks.importTasks(TaskTestData.getValidTasks());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+        try {
+            System.out.println("=== Test données problématiques ===");
+            TaskManager tasks = new TaskManager();
+            tasks.importTasks(TaskTestData.getProblematicTasks());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+        try {
+            System.out.println("=== Test grande liste ===");
+            TaskManager tasks = new TaskManager();
+            tasks.importTasks(TaskTestData.getLargeTaskSet());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
 
-        Slot slot = new Slot("8h30",120,2);
-        Slot slot2 = new Slot("8h30",120,3);
-        Slot slot3 = new Slot("12h30",120,2);
-        Slot slot4 = new Slot("12h30",120,3);
-        Slot slot5 = new Slot("12h30",120,1);
-        Slot slot6 = new Slot("8h30",120,1);
-        Slot slot7 = new Slot("12h30",120,4);
+        System.out.println("=== mS ===");
 
+        MovieScheduler mS = new MovieScheduler();
 
-        MovieScheduler m = new MovieScheduler();
-        m.addMovie("up", slot);
-        m.addMovie("titanic", slot2);
-        m.addMovie("avatar", slot3);
-        m.addMovie("portal 3", slot4);
-        m.addMovie("m&s", slot5);
-        m.showStats();
+        Slot slot = new Slot("8h30","120","Salle 122");
+        Slot slot2 = new Slot("8h30","120","Salle 3");
+        Slot slot3 = new Slot("12h30","120","Salle 2");
+        Slot slot4 = new Slot("12h30","120","Salle 3");
+        Slot slot5 = new Slot("12h30","120","Salle 1");
+        Slot slot6 = new Slot("8h30","120","Salle 1");
+        Slot slot7 = new Slot("12h30","120","Salle 4");
 
-        m.MovieScheduler.clear();
-        m.importMovieSchedule(MovieSlotTestData.getValidMovieSchedule());
+        mS.addMovie("up", slot);
+        mS.addMovie("titanic", slot2);
+        mS.addMovie("avatar", slot3);
+        mS.addMovie("portal 3", slot4);
+        mS.addMovie("m&s", slot5);
+        mS.showStats();
 
-//        m.MovieScheduler.clear();
-//        m.importMovieSchedule(MovieSlotTestData.getProblematicMovieSchedule());
-//
-//        m.MovieScheduler.clear();
-//        m.importMovieSchedule(MovieSlotTestData.getDuplicateMovieSchedule());
-//
-//        m.MovieScheduler.clear();
-//        m.importMovieSchedule(MovieSlotTestData.getConflictingSchedule());
-//
-//        m.MovieScheduler.clear();
-//        m.importMovieSchedule(MovieSlotTestData.getInvalidMovieSchedule());
-//
-//        m.MovieScheduler.clear();
-//        m.importMovieSchedule(MovieSlotTestData.getLargeMovieSchedule());
+        mS.MovieScheduler.clear();
+        mS.importMovieSchedule(MovieSlotTestData.getValidMovieSchedule());
+
+//        mS.MovieScheduler.clear();
+//        mS.importMovieSchedule(MovieSlotTestData.getProblematicMovieSchedule());
+
+//        mS.MovieScheduler.clear();
+//        mS.importMovieSchedule(MovieSlotTestData.getDuplicateMovieSchedule());
+
+//        mS.MovieScheduler.clear();
+//        mS.importMovieSchedule(MovieSlotTestData.getConflictingSchedule());
+
+//        mS.MovieScheduler.clear();
+//        mS.importMovieSchedule(MovieSlotTestData.getInvalidMovieSchedule());
+
+        mS.MovieScheduler.clear();
+        mS.importMovieSchedule(MovieSlotTestData.getLargeMovieSchedule());
 
     }
 }

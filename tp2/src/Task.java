@@ -6,19 +6,19 @@ public class Task {
     protected Priority priority;
 
     // Constructeur
-    public Task(String title, String description, Priority priority) {
+    public Task(String title, String description, String priority) {
         if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Title is null");
+            throw new IllegalArgumentException("Title cant' be null or empty");
         }
-        if (description == null) {
-            throw new IllegalArgumentException("Description is null");
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException("Description cant' be null or empty");
         }
-        if (priority == null) {
-            throw new IllegalArgumentException("Priority is null");
+        if (priority == null || priority.isEmpty()) {
+            throw new IllegalArgumentException("Priority cant' be null or empty");
         }
         this.title = title;
         this.description = description;
-        this.priority = priority;
+        this.priority = Priority.fromString(priority);
     }
 
     // Getter
