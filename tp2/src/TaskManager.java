@@ -61,17 +61,7 @@ public class TaskManager {
         }
         try {
             String title = taskData[0];
-        } catch (IllegalArgumentException e) {
-            System.out.println("Task not imported : "+e.getMessage());
-            return false;
-        }
-        try {
             String description = taskData[1];
-        } catch (IllegalArgumentException e) {
-            System.out.println("Task not imported : "+e.getMessage());
-            return false;
-        }
-        try {
             String priority = taskData[2];
         } catch (IllegalArgumentException e) {
             System.out.println("Task not imported : "+e.getMessage());
@@ -80,22 +70,22 @@ public class TaskManager {
         String title = taskData[0];
         String description = taskData[1];
         String priority = taskData[2];
-        Task task = new Task(title, description, priority);
-        return true;
+        try {
+            Task task = new Task(title, description, priority);
+            return true;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Task not imported : "+e.getMessage());
+            return false;
+        }
     }
     public void importTasks(String[][] tasksData) {
         int successCount = 0;
         int errorCount = 0;
         for (int i = 0; i < tasksData.length; i++) {
-            try {
-                if (importTask(tasksData[i])) {
-                    successCount ++;
-                } else {
-                    errorCount ++;
-                }
-            } catch (IllegalArgumentException e) {
+            if (importTask(tasksData[i])) {
+                successCount ++;
+            } else {
                 errorCount ++;
-                System.out.println(e);
             }
         }
         System.out.println("Success: " + successCount + "\nError: " + errorCount);

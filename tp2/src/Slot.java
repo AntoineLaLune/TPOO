@@ -10,7 +10,7 @@ public class Slot {
     protected int room;
 
     // Contructor
-    public Slot(String startTime, String duration, String room) throws ParseException {
+    public Slot(String startTime, String duration, String room) {
         if (startTime == null || startTime.isEmpty()) {
             throw new IllegalArgumentException("Start Time cannot be null or empty");
         }
@@ -19,15 +19,19 @@ public class Slot {
         }
         String roomRes = "";
         for (int i = 0; i < room.length(); i++) {
-            if (Character.isDigit(room.charAt(i))) { // YEESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-                roomRes = roomRes + Character.toString(room.charAt(i)); // StringBuilder ?
+            if (Character.isDigit(room.charAt(i))) {
+                roomRes = roomRes + Character.toString(room.charAt(i));
             }
         }
         if (Integer.parseInt(roomRes) <= 0) {
             throw new IllegalArgumentException("The room must be a positive number");
         }
         SimpleDateFormat simpleSimpleDateFormat = new SimpleDateFormat("HH'h'mm");
-        this.startTime = simpleSimpleDateFormat.parse(startTime);
+        try {
+            this.startTime = simpleSimpleDateFormat.parse(startTime);
+        } catch (ParseException e) {
+            throw new RuntimeException("The start time must be in the \"HH 'h' mm\" format (e.g., \"12h00\")");
+        }
         this.duration = Long.parseLong(duration);
         this.room = Integer.parseInt(roomRes);
     }

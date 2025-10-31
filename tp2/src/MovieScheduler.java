@@ -75,24 +75,20 @@ public class MovieScheduler {
                 number_of_room = entry.getValue().room;
             }
         }
-        ArrayList<String>[] ram = new ArrayList[number_of_room];
-        for (int i = 0; i < ram.length; i++) {
-            ram[i] = new ArrayList<>();
+        ArrayList<String>[] movies_by_rooms = new ArrayList[number_of_room];
+        for (int i = 0; i < movies_by_rooms.length; i++) {
+            movies_by_rooms[i] = new ArrayList<>();
         }
         for (Map.Entry<String, Slot> entry : this.MovieScheduler.entrySet()) {
-            ram[entry.getValue().room - 1].add(entry.getKey());
+            movies_by_rooms[entry.getValue().room - 1].add(entry.getKey());
         }
         for (int i = 0; i < number_of_room; i++) {
-            System.out.println("    " + (i+1) + ram[i].toString());
+            System.out.println("    " + (i+1) + movies_by_rooms[i].toString());
         }
 
     }
     private void importMovie(String[] movie) {
-        try {
-            this.addMovie(movie[0], new Slot(movie[1], movie[2], movie[3]));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        this.addMovie(movie[0], new Slot(movie[1], movie[2], movie[3]));
     }
     public void importMovieSchedule(String[][] movies) {
         HashMap<String, Slot> backup = new HashMap<>(this.MovieScheduler);
