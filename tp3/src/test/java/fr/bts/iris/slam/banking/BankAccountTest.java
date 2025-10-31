@@ -22,7 +22,7 @@ class BankAccountTest {
         // ARRANGE & ACT - Création d'un nouveau compte
         BankAccount newAccount = new BankAccount("ACC002", "Bob Martin", 50.0);
         
-        //
+        // ASSERT - Vérification
         assertEquals("ACC002", newAccount.getAccountNumber());
         assertEquals("Bob Martin", newAccount.getHolderName());
         assertEquals(50.0, newAccount.getBalance());
