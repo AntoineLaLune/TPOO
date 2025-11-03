@@ -2,6 +2,9 @@ package fr.bts.iris.slam.school;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentTest {
@@ -109,42 +112,261 @@ public class StudentTest {
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 18, "last_name.first_name@emailcom"));
     }
 
-    // === NOTE ===
+    // === CONSTRUCTOR GRADE ===
 
     @Test
-    void shouldBe0OnNumberOfNotesOnNewStudentCreated() {
+    void shouldBe0OnNumberOfGradesOnNewStudentCreated() {
         // ACT + ARRANGE
         student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
 
         // ASSERT
-        assertEquals(0, student.getNotes().size());
+        assertEquals(0, student.getGrades().size());
+    }
+
+    // === ADD GRADE ===
+
+    @Test
+    void shouldAddGradeToStudent() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 10;
+
+        // ACT
+        student.addGrade(grade);
+
+        // ASSERT
+        // assertTrue(Arrays.equals(student.getGrades().toArray(), new Double[]{10.0}));
+        // assertArrayEquals(new Double[]{10.0}, student.getGrades().toArray());
+        assertIterableEquals(List.of(10.0), student.getGrades());
     }
 
     @Test
-    void shouldAddNoteToStudent() {
+    void shouldAddMultipleGradeToStudent() {
         // ARRANGE
-        double note = 10;
+        double grade = 10;
+        double second_grade = 10;
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
 
         // ACT
-        student.addNote(note);
+        student.addGrade(grade);
+        student.addGrade(second_grade);
 
         // ASSERT
-        assertEquals(10, student.getNotes());
+        assertIterableEquals(List.of(10.0, 10.0), student.getGrades());
     }
 
     @Test
-    void shouldAddMultipleNoteToStudent() {
+    void shouldRefuseToAddGradeLowerThan0ToStudent() {
         // ARRANGE
-        double note = 10;
-        double second_note = 10;
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = -1;
+
+        // ACT + ASSERT
+        assertThrows(IllegalArgumentException.class, () -> student.addGrade(grade));
+    }
+
+    @Test
+    void shouldRefuseToAddGradeSuperiorThan20ToStudent() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 21;
+
+        // ACT + ASSERT
+        assertThrows(IllegalArgumentException.class, () -> student.addGrade(grade));
+    }
+
+    // === AVERAGE GRADE ===
+
+    @Test
+    void shouldAverageGrade() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 10;
 
         // ACT
-        student.addNote(note);
-        student.addNote(second_note);
-
+        student.addGrade(grade);
 
         // ASSERT
-        assertEquals(10, student.getNotes().get(0));
-        assertEquals(10, student.getNotes().get(1));
+        assertEquals(10.0, student.getAverage());
     }
+
+    @Test
+    void shouldAverageMultipleGrade() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 0;
+        double second_grade = 20;
+
+        // ACT
+        student.addGrade(grade);
+        student.addGrade(second_grade);
+
+        // ASSERT
+        assertEquals(10.0, student.getAverage());
+    }
+
+    @Test
+    void shouldNotAverageWhenGradeIsEmpty() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+
+        // ACT + ASSERT
+        assertThrows(IllegalStateException.class, () -> student.getAverage());
+    }
+
+    // === PASSING GRADE ===
+
+    @Test
+    void shouldPassWhenGradeIsOrBiggerThan10() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 10;
+
+        // ACT
+        student.addGrade(grade);
+
+        // ASSERT
+        assertTrue(student.hasPassingGrade());
+    }
+
+    @Test
+    void shouldNotPassWhenGradeIsLowerThan10() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 9.9;
+
+        // ACT
+        student.addGrade(grade);
+
+        // ASSERT
+        assertFalse(student.hasPassingGrade());
+    }
+
+    @Test
+    void shouldNotPassWhenThereIsNoGrade() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+
+        // ASSERT
+        assertFalse(student.hasPassingGrade());
+    }
+
+    // === METHODS GETTER ===
+
+    @Test
+    void shouldGetFullName() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+
+        // ASSERT
+        assertEquals("last_name first_name", student.getFullName());
+    }
+
+    @Test
+    void shouldGetMultipleGradeCount() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 0;
+        double second_grade = 20;
+
+        // ACT
+        student.addGrade(grade);
+        student.addGrade(second_grade);
+
+        // ASSERT
+        assertEquals(2, student.getGradeCount());
+    }
+
+    @Test
+    void shouldGet0FromGradeCountIfEmpty() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+
+        // ASSERT
+        assertEquals(0, student.getGradeCount());
+    }
+
+    @Test
+    void shouldGetBestGrade() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 12;
+        double second_grade = 14;
+        double third_grade = 11;
+
+        // ACT
+        student.addGrade(grade);
+        student.addGrade(second_grade);
+        student.addGrade(third_grade);
+
+        // ASSERT
+        assertEquals(14, student.getBestGrade());
+    }
+
+    @Test
+    void shouldGet0FromBestGradeIfEmpty() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+
+        // ASSERT
+        assertEquals(0.0, student.getBestGrade());
+    }
+
+    @Test
+    void shouldGetWorstGrade() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 13;
+        double second_grade = 11;
+        double third_grade = 16;
+
+        // ACT
+        student.addGrade(grade);
+        student.addGrade(second_grade);
+        student.addGrade(third_grade);
+
+        // ASSERT
+        assertEquals(11, student.getWorstGrade());
+    }
+
+    @Test
+    void shouldGet0FromWorstGradeIfEmpty() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+
+        // ASSERT
+        assertEquals(0.0, student.getWorstGrade());
+    }
+
+    @Test
+    void shouldGrades() {
+        // ARRANGE
+        student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 0;
+        double second_grade = 20;
+
+        // ACT
+        student.addGrade(grade);
+        student.addGrade(second_grade);
+
+        // ASSERT
+        assertIterableEquals(List.of(0.0, 20.0), student.getGrades());
+    }
+
+    @Test
+    void shouldNotModifyGrades() {
+        // ARRANGE
+        Student student = new Student("STU000", "last_name", "first_name", 18, "last_name.first_name@email.com");
+        double grade = 15;
+        double second_grade = 20;
+
+        // ACT
+        student.addGrade(grade);
+        List<Double> notes = student.getGrades();
+        notes.add(second_grade);
+
+        // ASSERT
+        assertIterableEquals(List.of(15.0), student.getGrades());
+    }
+
 }

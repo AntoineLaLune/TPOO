@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 public class Student {
 
+    // === ATTRIBUTES ===
+
     String id;
     String last_name;
     String first_name;
     int age;
     String email;
-    ArrayList<Double> notes;
+    ArrayList<Double> grades;
 
     // === CONSTRUCTOR ===
+
     public Student(String id, String last_name, String first_name, int age, String email) {
         // ID
         if (id == null || id.isEmpty()) {
@@ -83,10 +86,10 @@ public class Student {
         this.first_name = first_name;
         this.age = age;
         this.email = email;
-        this.notes = new ArrayList<>();
+        this.grades = new ArrayList<>();
     }
 
-    // === GETTERS ==
+    // === ATTRIBUTES GETTERS ==
 
     public String getId() {
         return this.id;
@@ -108,17 +111,80 @@ public class Student {
         return this.email;
     }
 
-    public ArrayList<Double> getNotes() {
-        return this.notes;
+    public ArrayList<Double> getGrades() {
+        return new ArrayList<>(this.grades);
+        // return List.copyOf(this.grades);
+        // return this.grades.stream().toList();
     }
 
-    // === METHODES ===
+    // === METHODS ===
 
     public void addStudent(Student student) {
         System.out.println("R");
     }
 
-    public void addNote(double note) {
-        this.notes.add(note);
+    public void addGrade(double grade) {
+        if (grade < 0 || grade > 20) {
+            throw new IllegalArgumentException("Grade must be between 0 and 20");
+        }
+        this.grades.add(grade);
     }
+
+    public double getAverage() {
+        if (this.grades.isEmpty()) {
+            throw new IllegalStateException("Cannot calculate average: no grades available");
+        }
+        double average = 0;
+        for (int i = 0; i < this.grades.size(); i++) {
+            average = average + this.grades.get(i);
+        }
+        return average / this.grades.size();
+    }
+
+    public boolean hasPassingGrade() {
+        if (!this.grades.isEmpty() && this.getAverage() >= 10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // === METHODS GETTERS ==
+
+    public String getFullName() {
+        return (this.last_name + " " + this.first_name);
+    }
+
+    public int getGradeCount() {
+        return (this.grades.size());
+    }
+
+    public double getBestGrade() {
+        if (this.grades.isEmpty()) {
+            return 0.0;
+        } else {
+            double best_grade = 0;
+            for (int i = 0; i < this.grades.size(); i++) {
+                if (this.grades.get(i) > best_grade) {
+                    best_grade = this.grades.get(i);
+                }
+            }
+            return best_grade;
+        }
+    }
+
+    public double getWorstGrade() {
+        if (this.grades.isEmpty()) {
+            return 0.0;
+        } else {
+            double worst_grade = 20;
+            for (int i = 0; i < this.grades.size(); i++) {
+                if (this.grades.get(i) < worst_grade) {
+                    worst_grade = this.grades.get(i);
+                }
+            }
+            return worst_grade;
+        }
+    }
+
 }
