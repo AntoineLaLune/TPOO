@@ -161,7 +161,7 @@ class CalculatorTest {
         ArithmeticException error_message = assertThrows(ArithmeticException.class, () -> {
             this.calculator.divide(a, b);
         });
-        assertEquals("Divide can't happen with 0", error_message.getMessage());
+        assertEquals("Divide can't be done with 0", error_message.getMessage());
     }
     
     // === TESTS FACTORIELLE ===

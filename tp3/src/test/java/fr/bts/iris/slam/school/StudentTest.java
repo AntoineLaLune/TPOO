@@ -91,7 +91,7 @@ public class StudentTest {
     // === CONSTRUCTOR LAST NAME ===
 
     @Test
-    void shouldRefuseNullOrEmptyLast_name() {
+    void shouldRefuseNullOrEmptyLastName() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", null, "first_name", 18, "last_name.first_name@email.com"));
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "", "first_name", 18, "last_name.first_name@email.com"));
@@ -99,15 +99,16 @@ public class StudentTest {
     }
 
     @Test
-    void shouldRefuseLast_nameSmallerThan2() {
+    void shouldRefuseLastNameSmallerThan2() {
         // ARRANGE + ACT + ASSERT
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "A", "first_name", 18, "last_name.first_name@email.com"));
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "A", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Last name must be at least 2 characters long", error_message.getMessage());
     }
 
     // === CONSTRUCTOR FIRST NAME ===
 
     @Test
-    void shouldRefuseNullOrEmptyFirst_name() {
+    void shouldRefuseNullOrEmptyFirstName() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", null, 18, "last_name.first_name@email.com"));
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "", 18, "last_name.first_name@email.com"));
@@ -115,7 +116,7 @@ public class StudentTest {
     }
 
     @Test
-    void shouldRefuseFirst_nameSmallerThan2() {
+    void shouldRefuseFirstNameSmallerThan2() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 18, "last_name.first_name@email.com"));
     }

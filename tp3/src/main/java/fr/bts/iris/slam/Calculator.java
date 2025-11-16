@@ -27,7 +27,7 @@ public class Calculator {
         if (b != 0) {
             return a / b;
         }
-        throw new ArithmeticException("Divide can't happen with 0");
+        throw new ArithmeticException("Divide can't be done with 0");
     }
     
     public int factorial(int n) {

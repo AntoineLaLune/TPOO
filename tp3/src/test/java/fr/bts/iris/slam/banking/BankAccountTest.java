@@ -168,7 +168,8 @@ class BankAccountTest {
         double withdrawalAmount = 30.0;
 
         // ACT & ASSERT
-        assertThrows(IllegalStateException.class, () -> account.withdraw(withdrawalAmount));
+        IllegalStateException error_message = assertThrows(IllegalStateException.class, () -> account.withdraw(withdrawalAmount));
+        assertEquals("Can't withdraw on inactive account", error_message.getMessage());
     }
     @Test
     void shouldRejectNegativeWithdrawal() {
@@ -278,7 +279,8 @@ class BankAccountTest {
         double newLimit = -100.0;
 
         // ACT & ASSERT
-        assertThrows(IllegalStateException.class, () -> account.setOverdraftLimit(newLimit));
+        IllegalStateException error_message = assertThrows(IllegalStateException.class, () -> account.setOverdraftLimit(newLimit));
+        assertEquals("Can't set a overdraft limit that is lower than 0", error_message.getMessage());
     }
     
     // === TESTS DES MÉTHODES UTILITAIRES ===
