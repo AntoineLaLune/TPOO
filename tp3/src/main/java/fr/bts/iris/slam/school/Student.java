@@ -6,12 +6,12 @@ public class Student {
 
     // === ATTRIBUTES ===
 
-    String id;
-    String last_name;
-    String first_name;
-    int age;
-    String email;
-    ArrayList<Double> grades;
+    protected String id;
+    protected String last_name;
+    protected String first_name;
+    protected int age;
+    protected String email;
+    protected ArrayList<Double> grades;
 
     // === CONSTRUCTOR ===
 
@@ -47,16 +47,13 @@ public class Student {
             throw new IllegalArgumentException("Last name must be at least 2 characters long");
         }
         // AGE
-        if (age < 16) {
+        if (age < 16 || age > 65) {
             throw new IllegalArgumentException("Age must be between 16 and 65");
         }
-        if (age > 65) {
-            throw new IllegalArgumentException("Age must be between 16 and 65");
-        }
+        // EMAIL
         if (email.isEmpty() || email == null) {
             throw new IllegalArgumentException("Email cannot be empty");
         }
-        // EMAIL
         if (!email.contains("@")) {
             throw new IllegalArgumentException("Email need to contain \"@\"");
         } else {

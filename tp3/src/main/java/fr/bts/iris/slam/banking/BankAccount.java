@@ -12,10 +12,10 @@ public class BankAccount {
     // === CONSTRUCTOR ===
     public BankAccount(String accountNumber, String holderName, double initialBalance) {
         if (accountNumber == null || accountNumber.isEmpty()) {
-            throw new IllegalArgumentException("Account Number can't be empty");
+            throw new IllegalArgumentException("Account Number can't be null or empty");
         }
         if (holderName == null || holderName.isEmpty()) {
-            throw new IllegalArgumentException("Holder Name can't be empty");
+            throw new IllegalArgumentException("Holder Name can't be null or empty");
         }
         if (initialBalance < 0) {
             throw new IllegalArgumentException("Initial Balance can't be lower than 0");
@@ -30,52 +30,49 @@ public class BankAccount {
 
     // === METHODS ===
     public void deposit(double amount) {
-        if (this.balance + amount < 0) {
-            throw new IllegalArgumentException("Balance is to short for the deposit");
-        }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Balance can't be 0 nor lower");
+            throw new IllegalArgumentException("Can't deposit a amount that is 0 nor lower");
         }
         if (!this.isActive) {
-            throw new IllegalStateException("Account need to be active");
+            throw new IllegalStateException("Can't deposit on inactive account");
         }
         this.balance = this.balance + amount;
     }
     public void withdraw(double amount) {
         if (!this.isActive) {
-            throw new IllegalStateException("The host account need to be active");
+            throw new IllegalStateException("Can't withdraw on inactive account");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Balance can't be 0 nor lower");
+            throw new IllegalArgumentException("Can't withdraw a amount that is 0 nor lower");
         }
         if (canWithdraw(amount)) {
             if (!this.isActive) {
-                throw new IllegalStateException("Account need to be active");
+                throw new IllegalStateException("Can't withdraw on quantum account");
             }
             this.balance = this.balance - amount;
         } else {
-            throw new IllegalArgumentException("The withdraw amount ("+amount+") is higher than the balance ("+this.balance+") with overdraft limit ("+this.overdraftLimit+")");
+            throw new IllegalArgumentException("Cannot withdraw over the overdraft limit : "+this.balance+" - "+amount+" < "+this.overdraftLimit);
         }
 
     }
     public void transfer(BankAccount targetAccount, double amount) {
         if (!this.isActive) {
-            throw new IllegalStateException("The host account need to be active");
+            throw new IllegalStateException("Can't transfer with a inactive account involve : host account");
         }
         if (!targetAccount.isActive) {
-            throw new IllegalStateException("The target account need to be active");
+            throw new IllegalStateException("Can't transfer with a inactive account involve : target account");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Balance can't be 0 nor lower");
+            throw new IllegalArgumentException("Can't transfert amount that is 0 nor lower");
         }
         if (targetAccount.accountNumber == null || targetAccount.accountNumber.isEmpty()) {
-            throw new IllegalArgumentException("The target account can't be empty");
+            throw new IllegalArgumentException("Can't transfert on null or empty target account number");
         }
         if (this.canWithdraw(amount)) {
-            this.balance = this.balance - amount;
-            targetAccount.balance = targetAccount.balance + amount;
+            this.withdraw(amount);
+            targetAccount.deposit(amount);
         } else {
-            throw new IllegalArgumentException("The withdraw amount ("+amount+") is higher than the balance ("+this.balance+") with overdraft limit ("+this.overdraftLimit+")");
+            throw new IllegalArgumentException("Cannot withdraw over the overdraft limit : "+this.balance+" - "+amount+" < "+this.overdraftLimit);
         }
     }
     public void deactivate() {
@@ -86,7 +83,7 @@ public class BankAccount {
     }
     public void setOverdraftLimit(double limit) {
         if (limit < 0) {
-            throw new IllegalArgumentException("The limit for the overdraft can't be lower than 0");
+            throw new IllegalStateException("Can't set a overdraft limit that is lower than 0");
         }
         this.overdraftLimit = limit;
     }

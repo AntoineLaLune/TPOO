@@ -27,12 +27,12 @@ public class Calculator {
         if (b != 0) {
             return a / b;
         }
-        throw new ArithmeticException("Le diviseur est de zero");
+        throw new ArithmeticException("Divide can't happen with 0");
     }
     
     public int factorial(int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("L'entrée est negative");
+            throw new IllegalArgumentException("Factorial can't be negative");
         }
         int res = 1;
         for (int i = 2; i <= n; i++) {
@@ -51,7 +51,7 @@ public class Calculator {
     
     public double power(double base, int exponent) {
         if (exponent < 0) {
-            throw new  IllegalArgumentException("Erreur critique, explotion de la terre dans 10 seconde");
+            throw new  IllegalArgumentException("Power exponent can't be lower than 0");
         }
         double ram = 1;
         for (int i = 0; i < exponent; i++) {

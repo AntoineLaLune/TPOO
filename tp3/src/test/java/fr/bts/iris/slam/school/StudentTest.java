@@ -33,20 +33,56 @@ public class StudentTest {
     // === CONSTRUCTOR ID ===
 
     @Test
-    void shouldRefuseIncorectIdOnStudentParameters() {
+    void shouldRefuseNoDigitInId() {
         // ARRANGE + ACT + ASSERT
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("STU", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("STU1", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("STU22", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("STU4444", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("S123", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("123", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("stu000", "last_name", "first_name", 18, "last_name.first_name@email.com"));
-        assertThrows(IllegalArgumentException.class, () -> student = new Student("STU 000", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("STU", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
     }
 
     @Test
-    void shouldRefuseNullOrEmptyIdOnStudentParameters() {
+    void shouldRefuseToShortId() {
+        // ARRANGE + ACT + ASSERT
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("STU1", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
+    }
+
+    @Test
+    void shouldRefuseToLongId() {
+        // ARRANGE + ACT + ASSERT
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("STU4444", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
+    }
+
+    @Test
+    void shouldRefuseBeginningMissingId() {
+        // ARRANGE + ACT + ASSERT
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("123", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
+    }
+
+    @Test
+    void shouldRefuseLowerCaseId() {
+        // ARRANGE + ACT + ASSERT
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("stu000", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
+    }
+
+    @Test
+    void shouldRefuseNoDigitInI2d() {
+        // ARRANGE + ACT + ASSERT
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("STU", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
+    }
+
+    @Test
+    void shouldRefuseSpaceInId() {
+        // ARRANGE + ACT + ASSERT
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> student = new Student("STU 000", "last_name", "first_name", 18, "last_name.first_name@email.com"));
+        assertEquals("Student ID must match pattern STU### (e.g., STU001)", error_message.getMessage());
+    }
+
+    @Test
+    void shouldRefuseNullOrEmptyId() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student(null, "last_name", "first_name", 18, "last_name.first_name@email.com"));
         assertThrows(IllegalArgumentException.class, () -> student = new Student("", "last_name", "first_name", 18, "last_name.first_name@email.com"));
@@ -55,7 +91,7 @@ public class StudentTest {
     // === CONSTRUCTOR LAST NAME ===
 
     @Test
-    void shouldRefuseNullOrEmptyLast_nameOnStudentParameters() {
+    void shouldRefuseNullOrEmptyLast_name() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", null, "first_name", 18, "last_name.first_name@email.com"));
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "", "first_name", 18, "last_name.first_name@email.com"));
@@ -63,7 +99,7 @@ public class StudentTest {
     }
 
     @Test
-    void shouldRefuseLast_nameSmallerThan2OnStudentParameters() {
+    void shouldRefuseLast_nameSmallerThan2() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "A", "first_name", 18, "last_name.first_name@email.com"));
     }
@@ -71,7 +107,7 @@ public class StudentTest {
     // === CONSTRUCTOR FIRST NAME ===
 
     @Test
-    void shouldRefuseNullOrEmptyFirst_nameOnStudentParameters() {
+    void shouldRefuseNullOrEmptyFirst_name() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", null, 18, "last_name.first_name@email.com"));
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "", 18, "last_name.first_name@email.com"));
@@ -79,7 +115,7 @@ public class StudentTest {
     }
 
     @Test
-    void shouldRefuseFirst_nameSmallerThan2OnStudentParameters() {
+    void shouldRefuseFirst_nameSmallerThan2() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 18, "last_name.first_name@email.com"));
     }
@@ -87,13 +123,13 @@ public class StudentTest {
     // === CONSTRUCTOR AGE ===
 
     @Test
-    void shouldRefuseAgeSmallerThan16OnStudentParameters() {
+    void shouldRefuseAgeSmallerThan16() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 15, "last_name.first_name@email.com"));
     }
 
     @Test
-    void shouldRefuseAgeBiggerThan65OnStudentParameters() {
+    void shouldRefuseAgeBiggerThan65() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 66, "last_name.first_name@email.com"));
     }
@@ -101,13 +137,13 @@ public class StudentTest {
     // === CONSTRUCTOR EMAIL ===
 
     @Test
-    void shouldRefuseEmailWithoutAddressSignOnStudentParameters() {
+    void shouldRefuseEmailWithoutAddressSign() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 18, "last_name.first_nameemail.com"));
     }
 
     @Test
-    void shouldRefuseEmailWithoutDotAfterAddressSignOnStudentParameters() {
+    void shouldRefuseEmailWithoutDotAfterAddressSign() {
         // ARRANGE + ACT + ASSERT
         assertThrows(IllegalArgumentException.class, () -> student = new Student("STU000", "last_name", "A", 18, "last_name.first_name@emailcom"));
     }

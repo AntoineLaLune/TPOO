@@ -158,9 +158,10 @@ class CalculatorTest {
         double b = 0;
 
         // ACT - Exécuter l'action à tester + ASSERT - Vérifier le résultat
-        assertThrows(ArithmeticException.class, () -> {
+        ArithmeticException error_message = assertThrows(ArithmeticException.class, () -> {
             this.calculator.divide(a, b);
         });
+        assertEquals("Divide can't happen with 0", error_message.getMessage());
     }
     
     // === TESTS FACTORIELLE ===
@@ -207,9 +208,10 @@ class CalculatorTest {
         int a = -5;
 
         // ACT - Exécuter l'action à tester + ASSERT - Vérifier le résultat
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             this.calculator.factorial(a);
         });
+        assertEquals("Factorial can't be negative", error_message.getMessage());
     }
     
     // === TESTS NOMBRE PAIR ===
@@ -285,9 +287,10 @@ class CalculatorTest {
         int b = -3;
 
         // ACT - Exécuter l'action à tester + ASSERT - Vérifier le résultat
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             this.calculator.power(a, b);
         });
+        assertEquals("Power exponent can't be lower than 0", error_message.getMessage());
     }
     
     // === TESTS SUPPLÉMENTAIRES ===

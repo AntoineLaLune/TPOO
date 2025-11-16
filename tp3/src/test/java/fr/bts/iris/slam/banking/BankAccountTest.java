@@ -32,37 +32,42 @@ class BankAccountTest {
     @Test
     void shouldRejectNullAccountNumber() {
         // ARRANGE & ACT - Création d'un nouveau compte + ASSERT - Vérification
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             BankAccount newAccount = new BankAccount(null, "Bob Martin", 50.0);
         });
+        assertEquals("Account Number can't be null or empty", error_message.getMessage());
     }
     @Test
     void shouldRejectEmptyAccountNumber() {
         // ARRANGE & ACT - Création d'un nouveau compte + ASSERT - Vérification
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             BankAccount newAccount = new BankAccount("", "Bob Martin", 50.0);
         });
+        assertEquals("Account Number can't be null or empty", error_message.getMessage());
     }
     @Test
     void shouldRejectNullHolderName() {
         // ARRANGE & ACT - Création d'un nouveau compte + ASSERT - Vérification
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             BankAccount newAccount = new BankAccount("ACC002", null, 50.0);
         });
+        assertEquals("Holder Name can't be null or empty", error_message.getMessage());
     }
     @Test
     void shouldRejectEmptyHolderName() {
         // ARRANGE & ACT - Création d'un nouveau compte + ASSERT - Vérification
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             BankAccount newAccount = new BankAccount("ACC002", "", 50.0);
         });
+        assertEquals("Holder Name can't be null or empty", error_message.getMessage());
     }
     @Test
     void shouldRejectNegativeInitialBalance() {
         // ARRANGE & ACT - Création d'un nouveau compte + ASSERT - Vérification
-        assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> {
             BankAccount newAccount = new BankAccount("ACC002", "Bob Martin", -50.0);
         });
+        assertEquals("Initial Balance can't be lower than 0", error_message.getMessage());
     }
     @Test
     void shouldAcceptZeroInitialBalance() {
@@ -93,9 +98,8 @@ class BankAccountTest {
         double depositAmount = 0.0;
 
         // ACT + ASSERT
-        assertThrows(IllegalArgumentException.class, () -> {
-            account.deposit(depositAmount);
-        });
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> account.deposit(depositAmount));
+        assertEquals("Can't deposit a amount that is 0 nor lower", error_message.getMessage());
     }
     @Test
     void shouldRejectNegativeDeposit() {
@@ -104,9 +108,8 @@ class BankAccountTest {
         double depositAmount = -50.0;
 
         // ACT + ASSERT
-        assertThrows(IllegalArgumentException.class, () -> {
-            account.deposit(depositAmount);
-        });
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> account.deposit(depositAmount));
+        assertEquals("Can't deposit a amount that is 0 nor lower", error_message.getMessage());
     }
     @Test
     void shouldRejectDepositOnInactiveAccount() {
@@ -114,13 +117,8 @@ class BankAccountTest {
         account.deactivate();
         
         // ACT & ASSERT
-        IllegalStateException exception = assertThrows(
-            IllegalStateException.class,
-            () -> account.deposit(50.0)
-        );
-        
-        // Vérification optionnelle du message
-        // assertTrue(exception.getMessage().contains("not active") || exception.getMessage().contains("inactive"));
+        IllegalStateException error_message = assertThrows(IllegalStateException.class, () -> account.deposit(50.0));
+        assertEquals("Can't deposit on inactive account", error_message.getMessage());
     }
     
     // === TESTS DE RETRAIT ===
@@ -134,10 +132,12 @@ class BankAccountTest {
     }
     @Test
     void shouldRejectWithdrawalExceedingBalance() {
+        // ARRANGE
+        double withdrawalAmount = 150.0;
+
         // ACT & ASSERT
-        assertThrows(
-                IllegalArgumentException.class, () -> account.withdraw(150.0)
-        );
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> account.withdraw(withdrawalAmount));
+        assertEquals("Cannot withdraw over the overdraft limit : "+account.getBalance()+" - "+withdrawalAmount+" < "+account.getOverdraftLimit(), error_message.getMessage());
     }
     @Test
     void shouldAllowWithdrawalWithinOverdraftLimit() {
@@ -158,9 +158,8 @@ class BankAccountTest {
         double withdrawalAmount = 160.0; // Plus que le solde et hors dans la limite
 
         // ACT & ASSERT
-        assertThrows(
-                IllegalArgumentException.class, () -> account.withdraw(withdrawalAmount)
-        );
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> account.withdraw(withdrawalAmount));
+        assertEquals("Cannot withdraw over the overdraft limit : "+account.getBalance()+" - "+withdrawalAmount+" < "+account.getOverdraftLimit(), error_message.getMessage());
     }
     @Test
     void shouldRejectWithdrawalOnInactiveAccount() {
@@ -169,9 +168,7 @@ class BankAccountTest {
         double withdrawalAmount = 30.0;
 
         // ACT & ASSERT
-        assertThrows(
-                IllegalStateException.class, () -> account.withdraw(withdrawalAmount)
-        );
+        assertThrows(IllegalStateException.class, () -> account.withdraw(withdrawalAmount));
     }
     @Test
     void shouldRejectNegativeWithdrawal() {
@@ -179,9 +176,8 @@ class BankAccountTest {
         double withdrawalAmount = -30.0;
 
         // ACT & ASSERT
-        assertThrows(
-                IllegalArgumentException.class, () -> account.withdraw(withdrawalAmount)
-        );
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> account.withdraw(withdrawalAmount));
+        assertEquals("Can't withdraw a amount that is 0 nor lower", error_message.getMessage());
     }
     
     // === TESTS DE TRANSFERT ===
@@ -209,18 +205,8 @@ class BankAccountTest {
         double initialTargetBalance = targetAccount.getBalance();
 
         // ACT & ASSERT
-        assertThrows(IllegalArgumentException.class, () -> account.transfer(targetAccount, transferAmount));
-    }
-    @Test
-    void shouldRejectTransferToNullAccount() {
-        // ARRANGE
-        BankAccount targetAccount = new BankAccount("ACC002", "Bob Martin", 0.0);
-        double transferAmount = 30.0;
-        double initialSourceBalance = account.getBalance();
-        double initialTargetBalance = targetAccount.getBalance();
-
-        // ACT & ASSERT
-        assertThrows(IllegalArgumentException.class, () -> account.transfer(new BankAccount(null, "Bob Martin", 0.0), transferAmount));
+        IllegalArgumentException error_message = assertThrows(IllegalArgumentException.class, () -> account.transfer(targetAccount, transferAmount));
+        assertEquals("Cannot withdraw over the overdraft limit : "+account.getBalance()+" - "+transferAmount+" < "+account.getOverdraftLimit(), error_message.getMessage());
     }
     @Test
     void shouldRejectTransferToInactiveAccount() {
@@ -232,7 +218,8 @@ class BankAccountTest {
         double initialTargetBalance = targetAccount.getBalance();
 
         // ACT & ASSERT
-        assertThrows(IllegalStateException.class, () -> account.transfer(targetAccount, transferAmount));
+        IllegalStateException error_message = assertThrows(IllegalStateException.class, () -> account.transfer(targetAccount, transferAmount));
+        assertEquals("Can't transfer with a inactive account involve : target account", error_message.getMessage());
     }
     @Test
     void shouldRejectTransferFromInactiveAccount() {
@@ -244,7 +231,8 @@ class BankAccountTest {
         double initialTargetBalance = targetAccount.getBalance();
 
         // ACT & ASSERT
-        assertThrows(IllegalStateException.class, () -> account.transfer(targetAccount, transferAmount));
+        IllegalStateException error_message = assertThrows(IllegalStateException.class, () -> account.transfer(targetAccount, transferAmount));
+        assertEquals("Can't transfer with a inactive account involve : host account", error_message.getMessage());
     }
     
     // === TESTS D'ACTIVATION/DÉSACTIVATION ===
@@ -290,7 +278,7 @@ class BankAccountTest {
         double newLimit = -100.0;
 
         // ACT & ASSERT
-        assertThrows(IllegalArgumentException.class, () -> account.setOverdraftLimit(newLimit));
+        assertThrows(IllegalStateException.class, () -> account.setOverdraftLimit(newLimit));
     }
     
     // === TESTS DES MÉTHODES UTILITAIRES ===
